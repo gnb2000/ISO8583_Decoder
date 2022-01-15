@@ -19,6 +19,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @RestController
@@ -71,6 +73,8 @@ public class FieldController {
     public String decode(@PathVariable String message){
         String originalMsg = message.replaceAll("\\s+","");
         String bitmap = "";
+        String bitmapInBinary = "";
+        List<Integer> field_data = new ArrayList<Integer>();
         if (originalMsg.substring(0,2).compareTo("60") == 0){
             //Without length at the beginning
             System.out.println("TPDU: "+originalMsg.substring(0,10));
@@ -85,7 +89,6 @@ public class FieldController {
         }
 
         //Convert bitmap (Hexa) to Binary
-        String bitmapInBinary = "";
         System.out.println("BITMAP: "+bitmap);
         for(int i = 0; i < bitmap.length() ; i++){
             //System.out.println("Hex "+bitmap.charAt(i) + "-- Bin: "+this.hexToBin(String.valueOf(bitmap.charAt(i))));
@@ -96,6 +99,7 @@ public class FieldController {
         System.out.print("Fields with data: ");
         for (int i = 0 ; i < bitmapInBinary.length() ; i++){
             if (bitmapInBinary.charAt(i) == '1'){
+                field_data.add(Integer.valueOf(bitmapInBinary.charAt(i)));
                 System.out.print((i+1)+" - ");
             }
         }
