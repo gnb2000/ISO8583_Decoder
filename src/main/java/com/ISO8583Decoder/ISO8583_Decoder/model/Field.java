@@ -11,14 +11,12 @@ public class Field {
     private int field_number;
     private String type;
     private Integer length;
-    private String length_type;
     private String name;
 
-    public Field(int field_number, String type, Integer length, String length_type, String name) {
+    public Field(int field_number, String type, Integer length, String name) {
         this.field_number = field_number;
         this.type = type;
         this.length = length;
-        this.length_type = length_type;
         this.name = name;
     }
 
@@ -52,14 +50,6 @@ public class Field {
 
     public void setLength(Integer length) {
         this.length = length;
-    }
-
-    public String getLength_type() {
-        return length_type;
-    }
-
-    public void setLength_type(String length_type) {
-        this.length_type = length_type;
     }
 
     public String getName() {
