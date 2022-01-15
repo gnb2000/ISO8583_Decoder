@@ -70,16 +70,57 @@ public class FieldController {
     @RequestMapping("decode/{message}")
     public String decode(@PathVariable String message){
         String originalMsg = message.replaceAll("\\s+","");
+        String bitmap = "";
         if (originalMsg.substring(0,2).compareTo("60") == 0){
             //Without length at the beginning
             System.out.println("TPDU: "+originalMsg.substring(0,10));
+            System.out.printf("MTI: "+originalMsg.substring(10,14));
+            bitmap = originalMsg.substring(14,28);
         } else {
             //With length at the beginning
             System.out.println("Length: "+originalMsg.substring(0,4));
             System.out.println("TPDU: "+originalMsg.substring(4,14));
+            System.out.println("MTI: "+originalMsg.substring(14,18));
+            bitmap = originalMsg.substring(18,34);
+        }
+
+        //Convert bitmap (Hexa) to Binary
+        String bitmapInBinary = "";
+        System.out.println("BITMAP: "+bitmap);
+        for(int i = 0; i < bitmap.length() ; i++){
+            //System.out.println("Hex "+bitmap.charAt(i) + "-- Bin: "+this.hexToBin(String.valueOf(bitmap.charAt(i))));
+            bitmapInBinary += this.hexToBin(String.valueOf(bitmap.charAt(i)));
+        }
+
+        //Fields with data
+        System.out.print("Fields with data: ");
+        for (int i = 0 ; i < bitmapInBinary.length() ; i++){
+            if (bitmapInBinary.charAt(i) == '1'){
+                System.out.print((i+1)+" - ");
+            }
         }
 
         return "";
+    }
+
+    private String hexToBin(String hex){
+        hex = hex.replaceAll("0", "0000");
+        hex = hex.replaceAll("1", "0001");
+        hex = hex.replaceAll("2", "0010");
+        hex = hex.replaceAll("3", "0011");
+        hex = hex.replaceAll("4", "0100");
+        hex = hex.replaceAll("5", "0101");
+        hex = hex.replaceAll("6", "0110");
+        hex = hex.replaceAll("7", "0111");
+        hex = hex.replaceAll("8", "1000");
+        hex = hex.replaceAll("9", "1001");
+        hex = hex.replaceAll("A", "1010");
+        hex = hex.replaceAll("B", "1011");
+        hex = hex.replaceAll("C", "1100");
+        hex = hex.replaceAll("D", "1101");
+        hex = hex.replaceAll("E", "1110");
+        hex = hex.replaceAll("F", "1111");
+        return hex;
     }
 
 }
