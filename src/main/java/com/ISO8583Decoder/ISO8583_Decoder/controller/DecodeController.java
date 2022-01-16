@@ -23,6 +23,7 @@ public class DecodeController {
 
     @RequestMapping("decode/{message}")
     public DecodeMsgDto decode(@PathVariable String message) throws Exception {
+
         String originalMsg = message.replaceAll("\\s+","");
         String bitmap = "";
         String data = "";
@@ -54,7 +55,7 @@ public class DecodeController {
 
         }
 
-        DecodeMsg new_decode = new DecodeMsg(msg_length,bitmap,tpdu);
+        DecodeMsg new_decode = new DecodeMsg(message,msg_length,bitmap,tpdu);
         MtiItem new_mtiItem = new MtiItem(mtiService.findByMtiNumber(mti),new_decode);
         new_decode.setMti(new_mtiItem);
 

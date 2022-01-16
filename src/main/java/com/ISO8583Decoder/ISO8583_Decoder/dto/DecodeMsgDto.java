@@ -4,13 +4,15 @@ import java.util.List;
 
 public class DecodeMsgDto {
 
+    private String originalMsg;
     private String length;
     private String tpdu;
     private String mti;
     private String bitmap;
     private List<DecodeFieldDto> decode_fields;
 
-    public DecodeMsgDto(String length, String tpdu,String bitmap, String mti, List<DecodeFieldDto> decode_fields) {
+    public DecodeMsgDto(String originalMsg, String length, String tpdu,String bitmap, String mti, List<DecodeFieldDto> decode_fields) {
+        this.originalMsg = originalMsg;
         this.length = length;
         this.tpdu = tpdu;
         this.mti = mti;
@@ -57,5 +59,13 @@ public class DecodeMsgDto {
 
     public void setDecode_fields(List<DecodeFieldDto> decode_fields) {
         this.decode_fields = decode_fields;
+    }
+
+    public String getOriginalMsg() {
+        return originalMsg;
+    }
+
+    public void setOriginalMsg(String originalMsg) {
+        this.originalMsg = originalMsg;
     }
 }
