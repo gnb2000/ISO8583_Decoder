@@ -1,6 +1,7 @@
 package com.ISO8583Decoder.ISO8583_Decoder.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "mtis")
@@ -10,6 +11,9 @@ public class Mti {
     private Integer id;
     private String mti;
     private String meaning;
+
+    @OneToMany(mappedBy = "mti", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MtiItem> mtiItemList;
 
     public Mti(String mti, String meaning) {
         this.mti = mti;

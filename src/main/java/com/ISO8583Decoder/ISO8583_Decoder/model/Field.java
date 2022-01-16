@@ -1,6 +1,7 @@
 package com.ISO8583Decoder.ISO8583_Decoder.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "fields")
@@ -12,6 +13,9 @@ public class Field {
     private String type;
     private Integer length;
     private String name;
+
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FieldItem> fieldItemList;
 
     public Field(int field_number, String type, Integer length, String name) {
         this.field_number = field_number;
