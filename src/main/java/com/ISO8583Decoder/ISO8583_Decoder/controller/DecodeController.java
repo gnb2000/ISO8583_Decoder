@@ -42,54 +42,70 @@ public class DecodeController {
         String bitmapInBinary = this.convertBitmapToBinary(bitmap);
 
         //Fields with data
-        System.out.println("Fields with data: ");
+        System.out.print("Fields with data: ");
         List<Integer> field_data = this.getFieldsWithData(bitmapInBinary);
 
-        System.out.println("Data");
-        System.out.println(data);
-
-        int current_position = 0;
+        System.out.println();
 
         for (Integer f : field_data){
             Field f_data = fieldService.getFieldByFieldNumber(f);
+
+            boolean isAscii = this.isAscii(f_data.getField_number());
+
             String decoded_data = "";
-            System.out.println("CURRENT POSITION "+current_position);
             if (f_data.getType().substring(0,3).compareTo("LLL") == 0){
                 //LLLVAR
-                System.out.print(f_data.getField_number() + " -- " + f_data.getName() + " -- ");
+                System.out.print("Field "+f_data.getField_number() + " -- " + f_data.getName() + " -- ");
 
-                //Primeros dos digitos indica la longitud
-                /*int longitud = Integer.valueOf(data.substring(0,4));
+                //Primeros cuatro digitos indica la longitud
+                int longitud = Integer.valueOf(data.substring(0,4));
+                int incremento = 1;
+                if (isAscii) {
+                    longitud = longitud * 2;
+                    incremento = 0;
+                }
+
+                System.out.println("LONGITUD "+longitud);
+
                 if (Integer.compare(longitud,f_data.getLength()) < 0 || Integer.compare(longitud,f_data.getLength()) == 0) {
                     if (longitud % 2 != 0){
                         //Hay que agregar uno mas que es el relleno
-                        decoded_data = data.substring(4,4 + longitud + 1);
+                        decoded_data = data.substring(4,4 + longitud  + incremento);
                     } else {
-                        decoded_data = data.substring(4,4 + longitud);
+                        System.out.println(data.substring(4));
+                        System.out.println("PRUEBA "+data.substring(4,3 + longitud));
+                        decoded_data = data.substring(4,3 + longitud);
                     }
-                    data = data.substring(longitud + 4 + 1);
+                    data = data.substring(longitud + 3 + incremento);
 
                     System.out.println(decoded_data);
+
                 } else {
                     throw new Exception("La longitud excede la longitud maxima del campo ( "+f_data.getLength()+" )");
-                }*/
+                }
             } else if (f_data.getType().substring(0,2).compareTo("LL") == 0){
                 //LLVAR
 
-                System.out.print(f_data.getField_number() + " -- " + f_data.getName() + " -- ");
+                System.out.print("Field "+f_data.getField_number() + " -- " + f_data.getName() + " -- ");
 
                 //Primeros dos digitos indica la longitud
                 int longitud = Integer.valueOf(data.substring(0,2));
+                int incremento = 1;
+                if (isAscii) {
+                    longitud = longitud * 2;
+                    incremento = 0;
+                }
                 if (Integer.compare(longitud,f_data.getLength()) < 0 || Integer.compare(longitud,f_data.getLength()) == 0) {
                     if (longitud % 2 != 0){
                         //Hay que agregar uno mas que es el relleno
-                        decoded_data = data.substring(2,2 + longitud + 1);
+                        decoded_data = data.substring(2,2 + longitud  + incremento);
                     } else {
                         decoded_data = data.substring(2,2 + longitud);
                     }
-                    data = data.substring(longitud + 2 + 1);
+                    data = data.substring(longitud + 2 + incremento);
 
                     System.out.println(decoded_data);
+
                 } else {
                     throw new Exception("La longitud excede la longitud maxima del campo ( "+f_data.getLength()+" )");
                 }
@@ -97,19 +113,27 @@ public class DecodeController {
 
             } else {
                 //FIXED
-                if (f_data.getLength() % 2 != 0){
-                    decoded_data = data.substring(0,f_data.getLength() + 1);
-                    data = data.substring(f_data.getLength() + 1);
-                } else {
-                    decoded_data = data.substring(0,f_data.getLength());
-                    data = data.substring(f_data.getLength());
+
+                int longitud = f_data.getLength();
+                int incremento = 1;
+                if (isAscii) {
+                    longitud = longitud * 2;
+                    incremento = 0;
                 }
-                System.out.print(f_data.getField_number() + " -- " + f_data.getName() + " -- ");
+
+                if (f_data.getLength() % 2 != 0){
+                    decoded_data = data.substring(0,longitud + incremento);
+                    data = data.substring(longitud + incremento);
+                } else {
+                    decoded_data = data.substring(0,longitud);
+                    data = data.substring(longitud);
+                }
+                System.out.print("Field "+f_data.getField_number() + " -- " + f_data.getName() + " -- ");
                 System.out.println(decoded_data);
 
             }
 
-            System.out.println(data);
+            //System.out.println(data);
         }
 
         return "";
@@ -153,5 +177,29 @@ public class DecodeController {
             }
         }
         return field_data;
+    }
+
+    private boolean isAscii(int field_number){
+        switch(field_number){
+            case 34 :
+            case 37 :
+            case 38 :
+            case 39 :
+            case 41 :
+            case 42 :
+            case 45 :
+            case 46 :
+            case 48 :
+            case 49 :
+            case 55 :
+            case 59 :
+            case 60 :
+            case 62 :
+            case 63 :
+                return true;
+            default:
+                return false;
+
+        }
     }
 }
