@@ -1,5 +1,6 @@
 package com.ISO8583Decoder.ISO8583_Decoder.controller;
 
+import com.ISO8583Decoder.ISO8583_Decoder.model.Field;
 import com.ISO8583Decoder.ISO8583_Decoder.services.FieldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,7 @@ public class DecodeController {
     private FieldService fieldService;
 
     @RequestMapping("decode/{message}")
-    public String decode(@PathVariable String message){
+    public String decode(@PathVariable String message) throws Exception {
         String originalMsg = message.replaceAll("\\s+","");
         String bitmap = "";
         String data = "";
@@ -47,9 +48,68 @@ public class DecodeController {
         System.out.println("Data");
         System.out.println(data);
 
+        int current_position = 0;
+
         for (Integer f : field_data){
-            System.out.println(f);
-            System.out.println(fieldService.getFieldByFieldNumber(f).getName());
+            Field f_data = fieldService.getFieldByFieldNumber(f);
+            String decoded_data = "";
+            System.out.println("CURRENT POSITION "+current_position);
+            if (f_data.getType().substring(0,3).compareTo("LLL") == 0){
+                //LLLVAR
+                System.out.print(f_data.getField_number() + " -- " + f_data.getName() + " -- ");
+
+                //Primeros dos digitos indica la longitud
+                /*int longitud = Integer.valueOf(data.substring(0,4));
+                if (Integer.compare(longitud,f_data.getLength()) < 0 || Integer.compare(longitud,f_data.getLength()) == 0) {
+                    if (longitud % 2 != 0){
+                        //Hay que agregar uno mas que es el relleno
+                        decoded_data = data.substring(4,4 + longitud + 1);
+                    } else {
+                        decoded_data = data.substring(4,4 + longitud);
+                    }
+                    data = data.substring(longitud + 4 + 1);
+
+                    System.out.println(decoded_data);
+                } else {
+                    throw new Exception("La longitud excede la longitud maxima del campo ( "+f_data.getLength()+" )");
+                }*/
+            } else if (f_data.getType().substring(0,2).compareTo("LL") == 0){
+                //LLVAR
+
+                System.out.print(f_data.getField_number() + " -- " + f_data.getName() + " -- ");
+
+                //Primeros dos digitos indica la longitud
+                int longitud = Integer.valueOf(data.substring(0,2));
+                if (Integer.compare(longitud,f_data.getLength()) < 0 || Integer.compare(longitud,f_data.getLength()) == 0) {
+                    if (longitud % 2 != 0){
+                        //Hay que agregar uno mas que es el relleno
+                        decoded_data = data.substring(2,2 + longitud + 1);
+                    } else {
+                        decoded_data = data.substring(2,2 + longitud);
+                    }
+                    data = data.substring(longitud + 2 + 1);
+
+                    System.out.println(decoded_data);
+                } else {
+                    throw new Exception("La longitud excede la longitud maxima del campo ( "+f_data.getLength()+" )");
+                }
+
+
+            } else {
+                //FIXED
+                if (f_data.getLength() % 2 != 0){
+                    decoded_data = data.substring(0,f_data.getLength() + 1);
+                    data = data.substring(f_data.getLength() + 1);
+                } else {
+                    decoded_data = data.substring(0,f_data.getLength());
+                    data = data.substring(f_data.getLength());
+                }
+                System.out.print(f_data.getField_number() + " -- " + f_data.getName() + " -- ");
+                System.out.println(decoded_data);
+
+            }
+
+            System.out.println(data);
         }
 
         return "";
