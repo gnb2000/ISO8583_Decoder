@@ -15,4 +15,9 @@ public class MtiServiceImpl implements MtiService{
     public void save(Mti m) {
         mtiRepository.save(m);
     }
+
+    @Override
+    public Mti findByMtiNumber(String mtiNumber) {
+        return mtiRepository.findByMtiNumber(mtiNumber);
+    }
 }

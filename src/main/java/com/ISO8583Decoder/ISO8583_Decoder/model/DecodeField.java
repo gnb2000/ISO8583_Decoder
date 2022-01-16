@@ -1,5 +1,8 @@
 package com.ISO8583Decoder.ISO8583_Decoder.model;
 
+import com.ISO8583Decoder.ISO8583_Decoder.dto.DecodeFieldDto;
+import com.ISO8583Decoder.ISO8583_Decoder.dto.DecodeMsgDto;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,8 +23,8 @@ public class DecodeField {
 
     public DecodeField(){}
 
-    public DecodeField(FieldItem field, String value) {
-        this.field = field;
+    public DecodeField(DecodeMsg decodeMsg, String value) {
+        this.decodeMsg = decodeMsg;
         this.value = value;
     }
 
@@ -47,5 +50,17 @@ public class DecodeField {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public DecodeMsg getDecodeMsg() {
+        return decodeMsg;
+    }
+
+    public void setDecodeMsg(DecodeMsg decodeMsg) {
+        this.decodeMsg = decodeMsg;
+    }
+
+    public DecodeFieldDto toDto(){
+        return new DecodeFieldDto(this.getField().getField().getField_number(),this.getField().getField().getName(),this.value);
     }
 }

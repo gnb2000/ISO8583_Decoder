@@ -1,7 +1,9 @@
 package com.ISO8583Decoder.ISO8583_Decoder.controller;
 
-import com.ISO8583Decoder.ISO8583_Decoder.model.Field;
+import com.ISO8583Decoder.ISO8583_Decoder.dto.DecodeMsgDto;
+import com.ISO8583Decoder.ISO8583_Decoder.model.*;
 import com.ISO8583Decoder.ISO8583_Decoder.services.FieldService;
+import com.ISO8583Decoder.ISO8583_Decoder.services.MtiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,15 +18,26 @@ public class DecodeController {
     @Autowired
     private FieldService fieldService;
 
+    @Autowired
+    private MtiService mtiService;
+
     @RequestMapping("decode/{message}")
-    public String decode(@PathVariable String message) throws Exception {
+    public DecodeMsgDto decode(@PathVariable String message) throws Exception {
         String originalMsg = message.replaceAll("\\s+","");
         String bitmap = "";
         String data = "";
+        String tpdu = "";
+        String msg_length = "";
+        String mti = "";
+        List<DecodeField> decode_fields = new ArrayList<DecodeField>();
         if (originalMsg.substring(0,2).compareTo("60") == 0){
             //Without length at the beginning
             System.out.println("TPDU: "+originalMsg.substring(0,10));
+            tpdu = originalMsg.substring(0,10);
+
             System.out.println("MTI: "+originalMsg.substring(10,14));
+            mti = originalMsg.substring(10,14);
+
             bitmap = originalMsg.substring(14,30);
             data = originalMsg.substring(30,originalMsg.length());
         } else {
@@ -32,10 +45,18 @@ public class DecodeController {
             System.out.println("Length: "+originalMsg.substring(0,4));
             System.out.println("TPDU: "+originalMsg.substring(4,14));
             System.out.println("MTI: "+originalMsg.substring(14,18));
+
+            msg_length = originalMsg.substring(0,4);
+            tpdu = originalMsg.substring(4,14);
+            mti = originalMsg.substring(14,18);
             bitmap = originalMsg.substring(18,34);
             data = originalMsg.substring(34,originalMsg.length());
 
         }
+
+        DecodeMsg new_decode = new DecodeMsg(msg_length,bitmap,tpdu);
+        MtiItem new_mtiItem = new MtiItem(mtiService.findByMtiNumber(mti),new_decode);
+        new_decode.setMti(new_mtiItem);
 
         //Convert bitmap (Hexa) to Binary
         System.out.println("BITMAP: "+bitmap);
@@ -49,7 +70,6 @@ public class DecodeController {
 
         for (Integer f : field_data){
             Field f_data = fieldService.getFieldByFieldNumber(f);
-
             boolean isAscii = this.isAscii(f_data.getField_number());
 
             String decoded_data = "";
@@ -60,7 +80,6 @@ public class DecodeController {
                 //Primeros cuatro digitos indica la longitud
                 int longitud = Integer.valueOf(data.substring(0,4));
                 int incremento = 1;
-                int resto = 0;
                 if (isAscii) {
                     longitud = longitud * 2;
                     incremento = 0;
@@ -75,7 +94,7 @@ public class DecodeController {
                     }
                     data = data.substring(longitud + 4 + incremento);
 
-                    System.out.println(decoded_data);
+                    //System.out.println(decoded_data);
 
                 } else {
                     throw new Exception("La longitud excede la longitud maxima del campo ( "+f_data.getLength()+" )");
@@ -101,12 +120,11 @@ public class DecodeController {
                     }
                     data = data.substring(longitud + 2 + incremento);
 
-                    System.out.println(decoded_data);
+                    //                    System.out.println(decoded_data);
 
                 } else {
                     throw new Exception("La longitud excede la longitud maxima del campo ( "+f_data.getLength()+" )");
                 }
-
 
             } else {
                 //FIXED
@@ -125,12 +143,20 @@ public class DecodeController {
                     data = data.substring(longitud);
                 }
                 System.out.print("Field "+f_data.getField_number() + " -- " + f_data.getName() + " -- ");
-                System.out.println(decoded_data);
+               // System.out.println(decoded_data);
 
             }
+
+            DecodeField new_decodeField = new DecodeField(new_decode ,decoded_data);
+            FieldItem fieldItem = new FieldItem(f_data,new_decodeField);
+            new_decodeField.setField(fieldItem);
+            decode_fields.add(new_decodeField);
+            System.out.println(decoded_data);
+
         }
 
-        return "";
+        new_decode.setDecodeFields(decode_fields);
+        return new_decode.toDto();
     }
 
     private String hexToBin(String hex){
@@ -196,4 +222,6 @@ public class DecodeController {
 
         }
     }
+
+
 }

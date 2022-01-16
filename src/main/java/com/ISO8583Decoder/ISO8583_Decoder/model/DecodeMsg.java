@@ -1,6 +1,10 @@
 package com.ISO8583Decoder.ISO8583_Decoder.model;
 
+import com.ISO8583Decoder.ISO8583_Decoder.dto.DecodeFieldDto;
+import com.ISO8583Decoder.ISO8583_Decoder.dto.DecodeMsgDto;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,6 +15,7 @@ public class DecodeMsg {
     private Integer id;
     private String length;
     private String tpdu;
+    private String bitmap;
 
     @OneToOne(mappedBy = "decodeMsg", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private MtiItem mti;
@@ -19,6 +24,12 @@ public class DecodeMsg {
     private List<DecodeField> decodeFields;
 
     public DecodeMsg(){}
+
+    public DecodeMsg(String length,String bitmap,String tpdu){
+        this.length = length;
+        this.bitmap = bitmap;
+        this.tpdu = tpdu;
+    }
 
     public DecodeMsg(String length, String tpdu, MtiItem mti, List<DecodeField> decodeFields) {
         this.length = length;
@@ -65,5 +76,21 @@ public class DecodeMsg {
 
     public void setDecodeFields(List<DecodeField> decodeFields) {
         this.decodeFields = decodeFields;
+    }
+
+    public String getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(String bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    public DecodeMsgDto toDto(){
+        List<DecodeFieldDto> decodeFieldDtos = new ArrayList<DecodeFieldDto>();
+        for (DecodeField d : this.decodeFields){
+            decodeFieldDtos.add(d.toDto());
+        }
+        return new DecodeMsgDto(this.length,this.tpdu,this.bitmap,this.mti.getMti().getMti(),decodeFieldDtos);
     }
 }
