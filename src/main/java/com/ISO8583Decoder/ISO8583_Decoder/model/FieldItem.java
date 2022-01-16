@@ -17,6 +17,8 @@ public class FieldItem {
     @OneToOne(fetch = FetchType.LAZY)
     private DecodeField decodeField;
 
+    public FieldItem(){}
+
     public FieldItem(Field field, DecodeField decodeField) {
         this.field = field;
         this.decodeField = decodeField;

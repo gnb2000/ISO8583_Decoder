@@ -18,6 +18,8 @@ public class DecodeMsg {
     @OneToMany(mappedBy = "decodeMsg", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DecodeField> decodeFields;
 
+    public DecodeMsg(){}
+
     public DecodeMsg(String length, String tpdu, MtiItem mti, List<DecodeField> decodeFields) {
         this.length = length;
         this.tpdu = tpdu;

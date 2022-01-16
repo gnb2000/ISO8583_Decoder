@@ -17,6 +17,8 @@ public class Field {
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FieldItem> fieldItemList;
 
+    public Field(){}
+
     public Field(int field_number, String type, Integer length, String name) {
         this.field_number = field_number;
         this.type = type;

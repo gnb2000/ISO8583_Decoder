@@ -15,6 +15,8 @@ public class Mti {
     @OneToMany(mappedBy = "mti", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MtiItem> mtiItemList;
 
+    public Mti(){}
+
     public Mti(String mti, String meaning) {
         this.mti = mti;
         this.meaning = meaning;

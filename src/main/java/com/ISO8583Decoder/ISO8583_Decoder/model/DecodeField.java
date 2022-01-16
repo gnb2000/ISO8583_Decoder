@@ -18,6 +18,8 @@ public class DecodeField {
     @JoinColumn(name = "decodeMsg_id")
     private DecodeMsg decodeMsg;
 
+    public DecodeField(){}
+
     public DecodeField(FieldItem field, String value) {
         this.field = field;
         this.value = value;

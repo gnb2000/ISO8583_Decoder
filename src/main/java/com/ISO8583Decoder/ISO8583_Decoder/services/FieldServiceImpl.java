@@ -41,6 +41,10 @@ public class FieldServiceImpl implements FieldService{
         } catch (Exception e){
             throw new Exception("No existe el campo con id "+ id);
         }
+    }
 
+    @Override
+    public Field getFieldByFieldNumber(Integer field_number) {
+        return fieldRepository.findByFieldNumber(field_number);
     }
 }

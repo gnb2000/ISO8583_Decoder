@@ -1,5 +1,7 @@
 package com.ISO8583Decoder.ISO8583_Decoder.controller;
 
+import com.ISO8583Decoder.ISO8583_Decoder.services.FieldService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,21 +12,28 @@ import java.util.List;
 @RestController
 public class DecodeController {
 
+    @Autowired
+    private FieldService fieldService;
+
     @RequestMapping("decode/{message}")
     public String decode(@PathVariable String message){
         String originalMsg = message.replaceAll("\\s+","");
         String bitmap = "";
+        String data = "";
         if (originalMsg.substring(0,2).compareTo("60") == 0){
             //Without length at the beginning
             System.out.println("TPDU: "+originalMsg.substring(0,10));
             System.out.printf("MTI: "+originalMsg.substring(10,14));
             bitmap = originalMsg.substring(14,28);
+            data = originalMsg.substring(28,originalMsg.length() - 1);
         } else {
             //With length at the beginning
             System.out.println("Length: "+originalMsg.substring(0,4));
             System.out.println("TPDU: "+originalMsg.substring(4,14));
             System.out.println("MTI: "+originalMsg.substring(14,18));
             bitmap = originalMsg.substring(18,34);
+            data = originalMsg.substring(34,originalMsg.length() - 1);
+
         }
 
         //Convert bitmap (Hexa) to Binary
@@ -32,9 +41,16 @@ public class DecodeController {
         String bitmapInBinary = this.convertBitmapToBinary(bitmap);
 
         //Fields with data
-        System.out.print("Fields with data: ");
+        System.out.println("Fields with data: ");
         List<Integer> field_data = this.getFieldsWithData(bitmapInBinary);
 
+        System.out.println("Data");
+        System.out.println(data);
+
+        for (Integer f : field_data){
+            System.out.println(f);
+            System.out.println(fieldService.getFieldByFieldNumber(f).getName());
+        }
 
         return "";
     }
@@ -72,7 +88,7 @@ public class DecodeController {
         List<Integer> field_data = new ArrayList<Integer>();
         for (int i = 0 ; i < bitmapInBinary.length() ; i++){
             if (bitmapInBinary.charAt(i) == '1'){
-                field_data.add(Integer.valueOf(bitmapInBinary.charAt(i)));
+                field_data.add(i+1);
                 System.out.print((i+1)+" - ");
             }
         }
