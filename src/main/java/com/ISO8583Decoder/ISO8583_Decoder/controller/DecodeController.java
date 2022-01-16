@@ -24,16 +24,16 @@ public class DecodeController {
         if (originalMsg.substring(0,2).compareTo("60") == 0){
             //Without length at the beginning
             System.out.println("TPDU: "+originalMsg.substring(0,10));
-            System.out.printf("MTI: "+originalMsg.substring(10,14));
-            bitmap = originalMsg.substring(14,28);
-            data = originalMsg.substring(28,originalMsg.length() - 1);
+            System.out.println("MTI: "+originalMsg.substring(10,14));
+            bitmap = originalMsg.substring(14,30);
+            data = originalMsg.substring(30,originalMsg.length());
         } else {
             //With length at the beginning
             System.out.println("Length: "+originalMsg.substring(0,4));
             System.out.println("TPDU: "+originalMsg.substring(4,14));
             System.out.println("MTI: "+originalMsg.substring(14,18));
             bitmap = originalMsg.substring(18,34);
-            data = originalMsg.substring(34,originalMsg.length() - 1);
+            data = originalMsg.substring(34,originalMsg.length());
 
         }
 
@@ -60,23 +60,20 @@ public class DecodeController {
                 //Primeros cuatro digitos indica la longitud
                 int longitud = Integer.valueOf(data.substring(0,4));
                 int incremento = 1;
+                int resto = 0;
                 if (isAscii) {
                     longitud = longitud * 2;
                     incremento = 0;
                 }
-
-                System.out.println("LONGITUD "+longitud);
 
                 if (Integer.compare(longitud,f_data.getLength()) < 0 || Integer.compare(longitud,f_data.getLength()) == 0) {
                     if (longitud % 2 != 0){
                         //Hay que agregar uno mas que es el relleno
                         decoded_data = data.substring(4,4 + longitud  + incremento);
                     } else {
-                        System.out.println(data.substring(4));
-                        System.out.println("PRUEBA "+data.substring(4,3 + longitud));
-                        decoded_data = data.substring(4,3 + longitud);
+                        decoded_data = data.substring(4,4 + longitud);
                     }
-                    data = data.substring(longitud + 3 + incremento);
+                    data = data.substring(longitud + 4 + incremento);
 
                     System.out.println(decoded_data);
 
@@ -113,7 +110,6 @@ public class DecodeController {
 
             } else {
                 //FIXED
-
                 int longitud = f_data.getLength();
                 int incremento = 1;
                 if (isAscii) {
@@ -132,8 +128,6 @@ public class DecodeController {
                 System.out.println(decoded_data);
 
             }
-
-            //System.out.println(data);
         }
 
         return "";
