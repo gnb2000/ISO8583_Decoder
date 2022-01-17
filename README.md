@@ -4,6 +4,7 @@
 #Requirements
   - Maven
   - MySql
+  - Spring Boot
  
 #Commands
 
