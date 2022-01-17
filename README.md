@@ -9,7 +9,7 @@
 
   - Run (POST) "http://localhost:8080/fields" to insert ISO 8583 Fields
   - Run (POST) "http://localhost:8080/mtis" to insert ISO 8583 MTIs
-  - Run (GET) "http://localhost:8080/decode/<message>" to decode a message.
+  - Run (GET) "http://localhost:8080/decode/(Insert Message)" to decode a message.
   
 #Example
 
