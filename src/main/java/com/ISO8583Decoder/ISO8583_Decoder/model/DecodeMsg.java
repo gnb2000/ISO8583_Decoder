@@ -17,6 +17,7 @@ public class DecodeMsg {
     private String length;
     private String tpdu;
     private String bitmap;
+    private String data;
 
     @OneToOne(mappedBy = "decodeMsg", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private MtiItem mti;
@@ -100,6 +101,14 @@ public class DecodeMsg {
         this.originalMsg = originalMsg;
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
     public DecodeMsgDto toDto(){
         List<DecodeFieldDto> decodeFieldDtos = new ArrayList<DecodeFieldDto>();
         for (DecodeField d : this.decodeFields){
@@ -107,6 +116,143 @@ public class DecodeMsg {
         }
         return new DecodeMsgDto(this.originalMsg,this.length,this.tpdu,this.bitmap,this.mti.getMti().getMti(),decodeFieldDtos);
     }
+
+    public void decodeHeader(){
+        String data;
+        if (this.originalMsg.substring(0,2).compareTo("60") == 0){
+            //Without length at the beginning
+            System.out.println("TPDU: "+this.originalMsg.substring(0,10));
+            this.setTpdu(this.originalMsg.substring(0,10));
+
+            System.out.println("MTI: "+this.originalMsg.substring(10,14));
+
+            this.setBitmap(this.originalMsg.substring(14,30));
+            this.data = this.originalMsg.substring(30,this.originalMsg.length());
+        } else {
+            //With length at the beginning
+            System.out.println("Length: "+this.originalMsg.substring(0,4));
+            System.out.println("TPDU: "+this.originalMsg.substring(4,14));
+            System.out.println("MTI: "+this.originalMsg.substring(14,18));
+
+            this.setLength(this.originalMsg.substring(0,4));
+            this.setTpdu(this.originalMsg.substring(4,14));
+            this.setBitmap(this.originalMsg.substring(18,34));
+            this.data = this.originalMsg.substring(34,this.originalMsg.length());
+
+        }
+
+    }
+
+    public String getMtiFromOriginalMsg(){
+        String mti;
+        if (this.originalMsg.substring(0,2).compareTo("60") == 0){
+            //Without length at the beginning
+            mti = this.originalMsg.substring(10,14);
+        } else {
+            //With length at the beginning
+            mti = this.originalMsg.substring(14,18);
+        }
+        return mti;
+    }
+
+    public DecodeField decodeFields(Field f_data,String data) throws Exception {
+        boolean isAscii = this.isAscii(f_data.getField_number());
+
+        String decoded_data = "";
+        if (f_data.getType().substring(0,3).compareTo("LLL") == 0){
+            //LLLVAR
+            System.out.print("Field "+f_data.getField_number() + " -- " + f_data.getName() + " -- ");
+
+            //Primeros cuatro digitos indica la longitud
+            int longitud = Integer.valueOf(data.substring(0,4));
+            int incremento = 1;
+            if (isAscii) {
+                longitud = longitud * 2;
+                incremento = 0;
+            }
+
+            if (Integer.compare(longitud,f_data.getLength()) < 0 || Integer.compare(longitud,f_data.getLength()) == 0) {
+                if (longitud % 2 != 0){
+                    //Hay que agregar uno mas que es el relleno
+                    decoded_data = data.substring(4,4 + longitud  + incremento);
+                } else {
+                    decoded_data = data.substring(4,4 + longitud);
+                }
+                this.data = data.substring(longitud + 4 + incremento);
+
+                //System.out.println(decoded_data);
+
+            } else {
+                throw new Exception("La longitud excede la longitud maxima del campo ( "+f_data.getLength()+" )");
+            }
+        } else if (f_data.getType().substring(0,2).compareTo("LL") == 0){
+            //LLVAR
+
+            System.out.print("Field "+f_data.getField_number() + " -- " + f_data.getName() + " -- ");
+
+            //Primeros dos digitos indica la longitud
+            int longitud = Integer.valueOf(data.substring(0,2));
+            int incremento = 1;
+            if (isAscii) {
+                longitud = longitud * 2;
+                incremento = 0;
+            }
+            if (Integer.compare(longitud,f_data.getLength()) < 0 || Integer.compare(longitud,f_data.getLength()) == 0) {
+                if (longitud % 2 != 0){
+                    //Hay que agregar uno mas que es el relleno
+                    decoded_data = data.substring(2,2 + longitud  + incremento);
+                } else {
+                    decoded_data = data.substring(2,2 + longitud);
+                }
+                this.data = data.substring(longitud + 2 + incremento);
+
+                //                    System.out.println(decoded_data);
+
+            } else {
+                throw new Exception("La longitud excede la longitud maxima del campo ( "+f_data.getLength()+" )");
+            }
+
+        } else {
+            //FIXED
+            int longitud = f_data.getLength();
+            int incremento = 1;
+            if (isAscii) {
+                longitud = longitud * 2;
+                incremento = 0;
+            }
+
+            if (f_data.getLength() % 2 != 0){
+                decoded_data = data.substring(0,longitud + incremento);
+                this.data = data.substring(longitud + incremento);
+            } else {
+                decoded_data = data.substring(0,longitud);
+                this.data = data.substring(longitud);
+            }
+            System.out.print("Field "+f_data.getField_number() + " -- " + f_data.getName() + " -- ");
+            // System.out.println(decoded_data);
+
+        }
+
+        DecodeField new_decodeField = new DecodeField(this ,decoded_data);
+        FieldItem fieldItem = new FieldItem(f_data,new_decodeField);
+        new_decodeField.setField(fieldItem);
+        System.out.println(decoded_data);
+
+        return new_decodeField;
+
+    }
+
+    public List<Integer> getFieldsWithData(){
+        //Convert bitmap (Hexa) to Binary
+        System.out.println("BITMAP: "+bitmap);
+        String bitmapInBinary = this.convertBitmapToBinary(this.bitmap);
+
+        //Fields with data
+        System.out.print("Fields with data: ");
+        List<Integer> field_data = this.getFieldsWithData(bitmapInBinary);
+        return field_data;
+    }
+
 
     private String hexToBin(String hex){
         hex = hex.replaceAll("0", "0000");
