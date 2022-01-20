@@ -1,6 +1,8 @@
 package com.ISO8583Decoder.ISO8583_Decoder.controller;
 
+import com.ISO8583Decoder.ISO8583_Decoder.model.Acquirer;
 import com.ISO8583Decoder.ISO8583_Decoder.model.Field;
+import com.ISO8583Decoder.ISO8583_Decoder.services.AcquirerService;
 import com.ISO8583Decoder.ISO8583_Decoder.services.FieldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +31,11 @@ public class FieldController {
     @Autowired
     private FieldService fieldService;
 
+    @Autowired
+    private AcquirerService acquirerService;
+
     @PostMapping("/fields")
-    public void createFields(){
+    public void createFields() throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         try {
@@ -38,31 +43,41 @@ public class FieldController {
 
             // parse XML file
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new File("src/main/resources/wikipedia_table.xml"));
-            doc.getDocumentElement().normalize();
-            NodeList list = doc.getElementsByTagName("isofield");
+            Document wikipedia = db.parse(new File("src/main/resources/wikipedia_table.xml"));
+            this.readXml(wikipedia,1);
+            Document emvamex = db.parse(new File("src/main/resources/emvamex_table.xml"));
+            this.readXml(emvamex,2);
+            Document emvvisaprisma = db.parse(new File("src/main/resources/emvvisaprisma_table.xml"));
+            this.readXml(emvvisaprisma,3);
 
-            for (int temp = 0; temp < list.getLength(); temp++) {
-
-                Node node = list.item(temp);
-
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-
-                    Element element = (Element) node;
-
-                    // get text
-                    String id = element.getAttribute("id");
-                    String longitud = element.getAttribute("length");
-                    String name = element.getAttribute("name");
-                    String type = element.getAttribute("class");
-
-                    Field f = new Field(Integer.valueOf(id),type,Integer.valueOf(longitud),name);
-                    fieldService.save(f);
-                }
-            }
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void readXml(Document doc, Integer acquirerId) throws Exception {
+        Acquirer a = acquirerService.findById(acquirerId);
+        doc.getDocumentElement().normalize();
+        NodeList list = doc.getElementsByTagName("isofield");
+
+        for (int temp = 0; temp < list.getLength(); temp++) {
+
+            Node node = list.item(temp);
+
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+                Element element = (Element) node;
+
+                // get text
+                String id = element.getAttribute("id");
+                String longitud = element.getAttribute("length");
+                String name = element.getAttribute("name");
+                String type = element.getAttribute("class");
+
+                Field f = new Field(Integer.valueOf(id),type,Integer.valueOf(longitud),name,a);
+                fieldService.save(f);
+            }
         }
     }
 

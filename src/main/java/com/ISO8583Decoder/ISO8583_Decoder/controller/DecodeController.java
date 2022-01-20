@@ -21,8 +21,8 @@ public class DecodeController {
     @Autowired
     private MtiService mtiService;
 
-    @RequestMapping("decode/{message}")
-    public DecodeMsgDto decode(@PathVariable String message) throws Exception {
+    @RequestMapping("decode/{acquirer}/{message}")
+    public DecodeMsgDto decode(@PathVariable String message,@PathVariable int acquirer) throws Exception {
         String originalMsg = message.replaceAll("\\s+","");
 
         DecodeMsg new_decode = new DecodeMsg(originalMsg);
@@ -37,7 +37,7 @@ public class DecodeController {
 
         List<DecodeField> decode_fields = new ArrayList<>();
         for (Integer f : fieldsWithData){
-            Field f_data = fieldService.getFieldByFieldNumber(f);
+            Field f_data = fieldService.getFieldByFieldNumberAndAcquirer(f,acquirer);
             DecodeField new_decodeField = new_decode.decodeFields(f_data,new_decode.getData());
             decode_fields.add(new_decodeField);
         }

@@ -44,7 +44,7 @@ public class FieldServiceImpl implements FieldService{
     }
 
     @Override
-    public Field getFieldByFieldNumber(Integer field_number) {
-        return fieldRepository.findByFieldNumber(field_number);
+    public Field getFieldByFieldNumberAndAcquirer(Integer field_number,int acquirerId) {
+        return fieldRepository.findByFieldNumberAndAcquirer(field_number,acquirerId);
     }
 }

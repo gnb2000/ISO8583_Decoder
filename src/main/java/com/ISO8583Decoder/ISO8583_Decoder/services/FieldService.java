@@ -8,5 +8,5 @@ public interface FieldService {
     void update(Field f);
     void delete(Field f);
     Field getFieldById(Integer id) throws Exception;
-    Field getFieldByFieldNumber(Integer field_number);
+    Field getFieldByFieldNumberAndAcquirer(Integer field_number,int acquirerId);
 }

@@ -17,13 +17,18 @@ public class Field {
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FieldItem> fieldItemList;
 
+    @ManyToOne()
+    @JoinColumn(name = "acquirer_id")
+    private Acquirer acquirer;
+
     public Field(){}
 
-    public Field(int field_number, String type, Integer length, String name) {
+    public Field(int field_number, String type, Integer length, String name, Acquirer a) {
         this.field_number = field_number;
         this.type = type;
         this.length = length;
         this.name = name;
+        this.acquirer = a;
     }
 
     public Integer getId() {
@@ -64,5 +69,21 @@ public class Field {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<FieldItem> getFieldItemList() {
+        return fieldItemList;
+    }
+
+    public void setFieldItemList(List<FieldItem> fieldItemList) {
+        this.fieldItemList = fieldItemList;
+    }
+
+    public Acquirer getAcquirer() {
+        return acquirer;
+    }
+
+    public void setAcquirer(Acquirer acquirer) {
+        this.acquirer = acquirer;
     }
 }

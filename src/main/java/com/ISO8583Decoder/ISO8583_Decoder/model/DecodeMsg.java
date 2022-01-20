@@ -295,6 +295,8 @@ public class DecodeMsg {
     }
 
     private boolean isAscii(int field_number){
+        //TODO En AMEX el campo 47 es ASCII, PUEDE SER?
+
         switch(field_number){
             case 34 :
             case 37 :
