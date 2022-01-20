@@ -34,14 +34,11 @@ public class FieldController {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         try {
-
-            // optional, but recommended
-            // process XML securely, avoid attacks like XML External Entities (XXE)
             dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
             // parse XML file
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new File("src/main/resources/data_elements.xml"));
+            Document doc = db.parse(new File("src/main/resources/wikipedia_table.xml"));
             doc.getDocumentElement().normalize();
             NodeList list = doc.getElementsByTagName("isofield");
 

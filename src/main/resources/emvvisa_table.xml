@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<isopackager>
+    <isofield id="0" length="4" name="MESSAGE TYPE" class="NUMERIC"/>
+    <isofield id="1" length="64" name="BITMAP" class="BITMAP"/>
+    <isofield id="2" length="19" name="ACCOUNT NUMBER" class="LLNUM"/>
+    <isofield id="3" length="6" name="PROCESSING CODE" class="NUMERIC"/>
+    <isofield id="4" length="12" name="TRANSACTION AMOUNT" class="NUMERIC"/>
+    <isofield id="7" length="10" name="TRANSMITION DATE TIME" class="NUMERIC"/>
+    <isofield id="11" length="6" name="STAN" class="NUMERIC"/>
+    <isofield id="12" length="6" name="LOCAL TIME" class="NUMERIC"/>
+    <isofield id="13" length="4" name="LOCAL DATE" class="NUMERIC"/>
+    <isofield id="14" length="4" name="EXPIRATION DATE" class="NUMERIC"/>
+    <isofield id="19" length="3" name="ACQUIRING COUNTRY CODE" class="NUMERIC"/>
+    <isofield id="22" length="3" name="POS ENTRY MODE" class="NUMERIC"/>
+    <isofield id="23" length="3" name="CARD SEQUENCE NUMBER" class="NUMERIC"/>
+    <isofield id="24" length="3" name="NII" class="NUMERIC"/>
+    <isofield id="25" length="2" name="POS C CODE" class="NUMERIC"/>
+    <isofield id="35" length="37" name="TRACK 2 DATA" class="LLCHAR"/>
+    <isofield id="37" length="12" name="RETRIEVE REF NUMBER" class="LLCHAR"/>
+    <isofield id="38" length="6" name="AUTORIZATION NUMBER" class="CHAR"/>
+    <isofield id="39" length="2" name="RESPONSE CODE" class="CHAR"/>
+    <isofield id="41" length="8" name="TERMINAL ID" class="CHAR"/>
+    <isofield id="42" length="15" name="MERCHANT ID" class="CHAR"/>
+    <isofield id="45" length="78" name="TRACK 1 DATA" class="LLCHAR"/>
+    <isofield id="48" length="999" name="ADD DATA" class="LLLCHAR"/>
+    <isofield id="52" length="64" name="PIN BLOCK" class="BINARY"/>
+    <isofield id="54" length="12" name="ADDITIONAL AMOUNT" class="LLCHAR"/>
+    <isofield id="55" length="999" name="EMV TAG LIST" class="LLLCHAR"/>
+    <isofield id="59" length="99" name="PRODUCT LIST" class="LLLCHAR"/>
+</isopackager>
