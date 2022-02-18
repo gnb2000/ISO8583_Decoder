@@ -8,16 +8,27 @@
  
 #Commands
 
-  - Run (POST) "http://localhost:8080/fields" to insert ISO 8583 Fields
   - Run (POST) "http://localhost:8080/mtis" to insert ISO 8583 MTIs
-  - Run (GET) "http://localhost:8080/decode/(Insert Message)" to decode a message.
+  - Run (POST) "http://localhost:8080/fields" to insert ISO 8583 Fields
+  - Run (GET) "http://localhost:8080/decode/{acquirer_id}/(Insert Message)" to decode a message.
+
+* Acquirer_id = 1 (Wikipedia table), 2 (EMV Prisma), 3 (AMEX)
   
 #Example
 
-  http://localhost:8080/decode/00%2057%2060%2000%2005%2000%2000%2004%2000%2072%203C%2005%2080%2000%20C0%2080%2004%2015%2037%2042%2045%2000%2027%2041%2000%206F%2000%2040%2000%2000%2000%2000%2004%2040%2000%2008%2024%2006%2047%2050%2000%2002%2036%2006%2037%2043%2008%2023%2021%2003%2005%2053%2000%2005%2000%2032%2033%2039%2039%2039%2039%2034%2038%2030%2037%2037%2033%2031%2033%2032%2030%2030%2036%2020%2020%2020%2020%2020%2030%2033%2032%2000%2006%2030%2030%2030%2030%2034%2037
+  http://localhost:8080/decode/3/60 00 03 00 00 02 00 30 20 05 80 20 C0 82 04 00
+40 00 00 00 00 00 10 12 00 00 18 05 91 00 03 00
+37 37 42 45 00 17 71 00 4D 24 12 70 21 71 01 23
+45 00 00 00 37 31 32 35 36 33 36 31 36 38 31 36
+37 38 33 31 36 31 20 20 20 20 20 30 33 32 00 57
+C1 C7 D5 E2 00 01 F9 E2 B0 9C FB CA D1 E7 07 06
+02 01 03 A0 10 02 81 BE 75 40 00 01 00 00 80 00
+00 20 02 19 00 00 00 00 00 10 12 00 32 00 32 0D
+80 00 00 00 00 00 00 00 80 00 06 30 30 30 30 33
+36
   
  
- ![image](https://cdn.discordapp.com/attachments/674412377818529831/932650449176248350/unknown.png)
+ ![image](https://cdn.discordapp.com/attachments/674412377818529831/944241269004173332/unknown.png)
  
  *Also, you can test using Postman and you will get a JSON Response.
 
