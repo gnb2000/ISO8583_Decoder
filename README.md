@@ -9,6 +9,7 @@
 #Commands
 
   - Run (POST) "http://localhost:8080/mtis" to insert ISO 8583 MTIs
+  - Run (POST) "http://localhost:8080/acquirers" to insert ISO 8583 Acquirers
   - Run (POST) "http://localhost:8080/fields" to insert ISO 8583 Fields
   - Run (GET) "http://localhost:8080/decode/{acquirer_id}/(Insert Message)" to decode a message.
 
