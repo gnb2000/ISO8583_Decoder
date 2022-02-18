@@ -46,9 +46,9 @@ public class FieldController {
             Document wikipedia = db.parse(new File("src/main/resources/wikipedia_table.xml"));
             this.readXml(wikipedia,1);
             Document emvamex = db.parse(new File("src/main/resources/emvamex_table.xml"));
-            this.readXml(emvamex,2);
+            this.readXml(emvamex,3);
             Document emvvisaprisma = db.parse(new File("src/main/resources/emvvisaprisma_table.xml"));
-            this.readXml(emvvisaprisma,3);
+            this.readXml(emvvisaprisma,2);
 
 
         } catch (ParserConfigurationException | SAXException | IOException e) {

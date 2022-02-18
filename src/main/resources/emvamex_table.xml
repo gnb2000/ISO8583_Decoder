@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <isopackager>
-    <isofield id="01" length="2" name="MESSAGE TYPE IDENTIFIER (MTI)" class="NUMERIC"/>
-    <isofield id="02" length="8" name="BIT MAP - PRIMARY" class="BINARY"/>
-    <isofield id="1" length="8" name="BIT MAP - SECONDARY" class="BINARY"/>
-    <isofield id="2" length="21" name="PRIMARY ACCOUNT NUMBER (PAN)" class="LLNUM"/>
+    <isofield id="0" length="4" name="MESSAGE TYPE INDICATOR" class="NUMERIC"/>
+    <isofield id="0" length="64" name="BIT MAP" class="BITMAP"/>
+    <isofield id="1" length="64" name="BIT MAP - SECONDARY" class="BITMAP"/>
+    <isofield id="2" length="21" name="PAN - PRIMARY ACCOUNT NUMBER" class="LLNUM"/>
     <isofield id="3" length="6" name="PROCESSING CODE" class="NUMERIC"/>
     <isofield id="4" length="12" name="AMOUNT, TRANSACTION" class="NUMERIC"/>
     <isofield id="5" length="12" name="AMOUNT, SETTLEMENT" class="NUMERIC"/>
     <isofield id="6" length="12" name="AMOUNT, CARDHOLDER BILLING" class="NUMERIC"/>
-    <isofield id="7" length="10" name="TRANSMISSION DATE AND TIME" class="NUMERIC"/>
+    <isofield id="7" length="10" name="DATE AND TIME, TRANSMISSION" class="NUMERIC"/>
     <isofield id="8" length="8" name="AMOUNT, CARDHOLDER BILLING FEE" class="NUMERIC"/>
     <isofield id="9" length="8" name="CONVERSION RATE, SETTLEMENT" class="NUMERIC"/>
     <isofield id="10" length="8" name="CONVERSION RATE, CARDHOLDER BILLING" class="NUMERIC"/>
@@ -19,115 +19,50 @@
     <isofield id="15" length="4" name="DATE, SETTLEMENT" class="NUMERIC"/>
     <isofield id="16" length="4" name="DATE, CONVERSION" class="NUMERIC"/>
     <isofield id="17" length="4" name="DATE, CAPTURE" class="NUMERIC"/>
-    <isofield id="18" length="4" name="MERCHANTS TYPE" class="NUMERIC"/>
     <isofield id="19" length="3" name="ACQUIRING INSTITUTION COUNTRY CODE" class="NUMERIC"/>
-    <isofield id="20" length="3" name="PAN EXTENDED COUNTRY CODE" class="NUMERIC"/>
-    <isofield id="21" length="3" name="FORWARDING INSTITUTION COUNTRY CODE" class="NUMERIC"/>
+    <isofield id="20" length="3" name="COUNTRY CODE, PAN EXTENDED" class="NUMERIC"/>
+    <isofield id="21" length="3" name="COUNTRY CODE, FORWARDING INSTITUTION " class="NUMERIC"/>
     <isofield id="22" length="3" name="POINT OF SERVICE ENTRY MODE" class="NUMERIC"/>
-    <isofield id="23" length="3" name="CARD SEQUENCE NUMBER" class="NUMERIC"/>
-    <isofield id="24" length="3" name="NETWORK INTERNATIONAL IDENTIFIEER" class="NUMERIC"/>
+    <isofield id="23" length="3" name="APPLICATION PAN NUMBER" class="NUMERIC"/>
+    <isofield id="24" length="3" name="NETWORK INTERNATIONAL IDENTIFIEER (NII)" class="NUMERIC"/>
     <isofield id="25" length="2" name="POINT OF SERVICE CONDITION CODE" class="NUMERIC"/>
-    <isofield id="26" length="2" name="POINT OF SERVICE PIN CAPTURE CODE" class="NUMERIC"/>
-    <isofield id="27" length="1" name="AUTHORIZATION IDENTIFICATION RESP LEN" class="NUMERIC"/>
-    <isofield id="28" length="9" name="AMOUNT, TRANSACTION FEE" class="NUMERIC"/>
-    <isofield id="29" length="9" name="AMOUNT, SETTLEMENT FEE" class="NUMERIC"/>
-    <isofield id="30" length="9" name="AMOUNT, TRANSACTION PROCESSING FEE" class="NUMERIC"/>
-    <isofield id="31" length="9" name="AMOUNT, SETTLEMENT PROCESSING FEE" class="NUMERIC"/>
-    <isofield id="32" length="11" name="ACQUIRING INSTITUTION IDENT CODE" class="LLNUM"/>
-    <isofield id="33" length="11" name="FORWARDING INSTITUTION IDENT CODE" class="LLNUM"/>
-    <isofield id="34" length="28" name="PAN EXTENDED" class="LLCHAR"/>
-    <isofield id="35" length="37" name="TRACK 2 DATA" class="LLNUM"/>
-    <isofield id="36" length="104" name="TRACK 3 DATA" class="LLLCHAR"/>
-    <isofield id="37" length="12" name="RETRIEVAL REFERENCE NUMBER" class="CHAR"/>
+    <isofield id="26" length="2" name="POINT OF SERVICE CAPTURE CODE" class="NUMERIC"/>
+    <isofield id="27" length="1" name="AUTHORIZATION IDENTIFICATION RESPONSE LENGTH" class="NUMERIC"/>
+    <isofield id="28" length="8" name="AMOUNT, TRANSACTION FEE" class="NUMERIC"/>
+    <isofield id="29" length="8" name="AMOUNT, SETTLEMENT FEE" class="NUMERIC"/>
+    <isofield id="30" length="8" name="AMOUNT, TRANSACTION PROCESSING FEE" class="NUMERIC"/>
+    <isofield id="31" length="8" name="AMOUNT, SETTLEMENT PROCESSING FEE" class="NUMERIC"/>
+    <isofield id="32" length="13" name="ACQUIRING INSTITUTION IDENTIFICATIONJ CODE" class="LLNUM"/>
+    <isofield id="33" length="13" name="FORWARDING INSTITUTION IDENTIFICATION CODE" class="LLNUM"/>
+    <isofield id="34" length="30" name="PRIMARY ACCOUNT NUMBER, EXTENDED" class="LLNUM"/>
+    <isofield id="35" length="39" name="TRACK 2 DATA" class="LLCHAR"/>
+    <isofield id="36" length="107" name="TRACK 3 DATA" class="LLLCHAR"/>
+    <isofield id="37" length="12" name="RETRIEVAL REFERENCE NUMBER (RRN)" class="CHAR"/>
     <isofield id="38" length="6" name="AUTHORIZATION IDENTIFICATION RESPONSE" class="CHAR"/>
     <isofield id="39" length="2" name="RESPONSE CODE" class="CHAR"/>
     <isofield id="40" length="3" name="SERVICE RESTRICTION CODE" class="CHAR"/>
     <isofield id="41" length="8" name="CARD ACCEPTOR TERMINAL IDENTIFICACION" class="CHAR"/>
     <isofield id="42" length="15" name="CARD ACCEPTOR IDENTIFICATION CODE" class="CHAR"/>
     <isofield id="43" length="40" name="CARD ACCEPTOR NAME/LOCATION" class="CHAR"/>
-    <isofield id="44" length="25" name="ADITIONAL RESPONSE DATA" class="LLCHAR"/>
-    <isofield id="45" length="76" name="TRACK 1 DATA" class="LLCHAR"/>
-    <isofield id="46" length="999" name="ADITIONAL DATA - ISO" class="LLLCHAR"/>
-    <isofield id="47" length="999" name="ADITIONAL DATA - NATIONAL" class="LLLCHAR"/>
-    <isofield id="48" length="999" name="ADITIONAL DATA - PRIVATE" class="LLLCHAR"/>
-    <isofield id="49" length="3" name="CURRENCY CODE, TRANSACTION" class="CHAR"/>
+    <isofield id="44" length="27" name="ADITIONAL RESPONSE DATA" class="LLCHAR"/>
+    <isofield id="45" length="78" name="TRACK 1 DATA" class="LLCHAR"/>
+    <isofield id="46" length="1002" name="ADITIONAL DATA - ISO" class="LLLCHAR"/>
+    <isofield id="47" length="31" name="ADITIONAL DATA - NATIONAL" class="LLLCHAR"/>
+    <isofield id="48" length="83" name="ADITIONAL DATA - PRIVATE" class="LLLCHAR"/>
+    <isofield id="49" length="3" name="CURRENCY CODE, TRANSACTION" class="NUMERIC"/>
     <isofield id="50" length="3" name="CURRENCY CODE, SETTLEMENT" class="CHAR"/>
     <isofield id="51" length="3" name="CURRENCY CODE, CARDHOLDER BILLING" class="CHAR"/>
-    <isofield id="52" length="8" name="PIN DATA" class="BINARY"/>
-    <isofield id="53" length="16" name="SECURITY RELATED CONTROL INFORMATION" class="NUMERIC"/>
-    <isofield id="54" length="120" name="ADDITIONAL AMOUNTS" class="LLLCHAR"/>
-    <isofield id="55" length="999" name="RESERVED ISO" class="LLLCHAR"/>
-    <isofield id="56" length="999" name="RESERVED ISO" class="LLLCHAR"/>
-    <isofield id="57" length="999" name="RESERVED NATIONAL" class="LLLCHAR"/>
-    <isofield id="58" length="999" name="RESERVED NATIONAL" class="LLLCHAR"/>
-    <isofield id="59" length="999" name="RESERVED NATIONAL" class="LLLCHAR"/>
-    <isofield id="60" length="999" name="RESERVED PRIVATE" class="LLLCHAR"/>
-    <isofield id="61" length="999" name="RESERVED PRIVATE" class="LLLCHAR"/>
-    <isofield id="62" length="999" name="RESERVED PRIVATE" class="LLLCHAR"/>
-    <isofield id="63" length="999" name="RESERVED PRIVATE" class="LLLCHAR"/>
-    <isofield id="64" length="8" name="MESSAGE AUTHENTICATION CODE FIELD" class="BINARY"/>
-    <isofield id="65" length="1" name="BITMAP, EXTENDED" class="BINARY"/>
-    <isofield id="66" length="1" name="SETTLEMENT CODE" class="NUMERIC"/>
-    <isofield id="67" length="2" name="EXTENDED PAYMENT CODE" class="NUMERIC"/>
-    <isofield id="68" length="3" name="RECEIVING INSTITUTION COUNTRY CODE" class="NUMERIC"/>
-    <isofield id="69" length="3" name="SETTLEMENT INSTITUTION COUNTRY CODE" class="NUMERIC"/>
-    <isofield id="70" length="3" name="NETWORK MANAGEMENT INFORMATION CODE" class="NUMERIC"/>
-    <isofield id="71" length="4" name="MESSAGE NUMBER" class="NUMERIC"/>
-    <isofield id="72" length="4" name="MESSAGE NUMBER LAST" class="NUMERIC"/>
-    <isofield id="73" length="6" name="DATE ACTION" class="NUMERIC"/>
-    <isofield id="74" length="10" name="CREDITS NUMBER" class="NUMERIC"/>
-    <isofield id="75" length="10" name="CREDITS REVERSAL NUMBER" class="NUMERIC"/>
-    <isofield id="76" length="10" name="DEBITS NUMBER" class="NUMERIC"/>
-    <isofield id="77" length="10" name="DEBITS REVERSAL NUMBER" class="NUMERIC"/>
-    <isofield id="78" length="10" name="TRANSFER NUMBER" class="NUMERIC"/>
-    <isofield id="79" length="10" name="TRANSFER REVERSAL NUMBER" class="NUMERIC"/>
-    <isofield id="80" length="10" name="INQUIRIES NUMBER" class="NUMERIC"/>
-    <isofield id="81" length="10" name="AUTHORIZATION NUMBER" class="NUMERIC"/>
-    <isofield id="82" length="12" name="CREDITS, PROCESSING FEE AMOUNT" class="NUMERIC"/>
-    <isofield id="83" length="12" name="CREDITS, TRANSACTION FEE AMOUNT" class="NUMERIC"/>
-    <isofield id="84" length="12" name="DEBITS, PROCESSING FEE AMOUNT" class="NUMERIC"/>
-    <isofield id="85" length="12" name="DEBITS, TRANSACTION FEE AMOUNT" class="NUMERIC"/>
-    <isofield id="86" length="16" name="CREDITS, AMOUNT" class="NUMERIC"/>
-    <isofield id="87" length="16" name="CREDITS, REVERSAL AMOUNT" class="NUMERIC"/>
-    <isofield id="88" length="16" name="DEBITS, AMOUNT" class="NUMERIC"/>
-    <isofield id="89" length="16" name="DEBITS, REVERSAL AMOUNT" class="NUMERIC"/>
-    <isofield id="90" length="42" name="ORIGINAL DATA ELEMENTS" class="NUMERIC"/>
-    <isofield id="91" length="1" name="FILE UPDATE CODE" class="CHAR"/>
-    <isofield id="92" length="2" name="FILE SECURITY CODE" class="CHAR"/>
-    <isofield id="93" length="6" name="RESPONSE INDICATOR" class="CHAR"/>
-    <isofield id="94" length="7" name="SERVICE INDICATOR" class="CHAR"/>
-    <isofield id="95" length="42" name="REPLACEMENT AMOUNTS" class="CHAR"/>
-    <isofield id="96" length="16" name="MESSAGE SECURITY CODE" class="BINARY"/>
-    <isofield id="97" length="17" name="AMOUNT, NET SETTLEMENT" class="NUMERIC"/>
-    <isofield id="98" length="25" name="PAYEE" class="CHAR"/>
-    <isofield id="99" length="11" name="SETTLEMENT INSTITUTION IDENT CODE" class="LLNUM"/>
-    <isofield id="100" length="11" name="RECEIVING INSTITUTION IDENT CODE" class="LLNUM"/>
-    <isofield id="101" length="17" name="FILE NAME" class="LLCHAR"/>
-    <isofield id="102" length="28" name="ACCOUNT IDENTIFICATION 1" class="LLCHAR"/>
-    <isofield id="103" length="28" name="ACCOUNT IDENTIFICATION 2" class="LLCHAR"/>
-    <isofield id="104" length="100" name="TRANSACTION DESCRIPTION" class="LLLCHAR"/>
-    <isofield id="105" length="999" name="RESERVED ISO USE" class="LLLCHAR"/>
-    <isofield id="106" length="999" name="RESERVED ISO USE" class="LLLCHAR"/>
-    <isofield id="107" length="999" name="RESERVED ISO USE" class="LLLCHAR"/>
-    <isofield id="108" length="999" name="RESERVED ISO USE" class="LLLCHAR"/>
-    <isofield id="109" length="999" name="RESERVED ISO USE" class="LLLCHAR"/>
-    <isofield id="110" length="999" name="RESERVED ISO USE" class="LLLCHAR"/>
-    <isofield id="111" length="999" name="RESERVED ISO USE" class="LLLCHAR"/>
-    <isofield id="112" length="999" name="RESERVED NATIONAL USE" class="LLLCHAR"/>
-    <isofield id="113" length="999" name="RESERVED NATIONAL USE" class="LLLCHAR"/>
-    <isofield id="114" length="999" name="RESERVED NATIONAL USE" class="LLLCHAR"/>
-    <isofield id="115" length="999" name="RESERVED NATIONAL USE" class="LLLCHAR"/>
-    <isofield id="116" length="999" name="RESERVED NATIONAL USE" class="LLLCHAR"/>
-    <isofield id="117" length="999" name="RESERVED NATIONAL USE" class="LLLCHAR"/>
-    <isofield id="118" length="999" name="RESERVED NATIONAL USE" class="LLLCHAR"/>
-    <isofield id="119" length="999" name="RESERVED NATIONAL USE" class="LLLCHAR"/>
-    <isofield id="120" length="999" name="RESERVED PRIVATE USE" class="LLLCHAR"/>
-    <isofield id="121" length="999" name="RESERVED PRIVATE USE" class="LLLCHAR"/>
-    <isofield id="122" length="999" name="RESERVED PRIVATE USE" class="LLLCHAR"/>
-    <isofield id="123" length="999" name="RESERVED PRIVATE USE" class="LLLCHAR"/>
-    <isofield id="124" length="999" name="RESERVED PRIVATE USE" class="LLLCHAR"/>
-    <isofield id="125" length="999" name="RESERVED PRIVATE USE" class="LLLCHAR"/>
-    <isofield id="126" length="999" name="RESERVED PRIVATE USE" class="LLLCHAR"/>
-    <isofield id="127" length="999" name="RESERVED PRIVATE USE" class="LLLCHAR"/>
-    <isofield id="128" length="8" name="MAC 2" class="BINARY"/>
+    <isofield id="52" length="64" name="PERSONAL IDENTIFICATION DATA (PIN) DATA" class="BINARY"/>
+    <isofield id="53" length="18" name="SECURITY RELATED CONTROL INFORMATION" class="LLNUM"/>
+    <isofield id="54" length="14" name="ADDITIONAL AMOUNTS" class="LLLCHAR"/>
+    <isofield id="55" length="258" name="ISO USE DATA" class="LLLCHAR"/>
+    <isofield id="56" length="1002" name="RESERVED ISO" class="LLLCHAR"/>
+    <isofield id="57" length="1002" name="RESERVED NATIONAL" class="LLLCHAR"/>
+    <isofield id="58" length="1002" name="RESERVED NATIONAL" class="LLLCHAR"/>
+    <isofield id="59" length="141" name="141" class="LLLCHAR"/>
+    <isofield id="60" length="208" name="PRIVATE USE DATA" class="LLLCHAR"/>
+    <isofield id="61" length="14" name="PRIVATE USE DATA" class="LLLCHAR"/>
+    <isofield id="62" length="62" name="PRIVATE USE DATA" class="LLLCHAR"/>
+    <isofield id="63" length="54" name="PRIVATE USE DATA" class="LLLCHAR"/>
+    <isofield id="64" length="64" name="MESSAGE AUTHENTICATION CODE (MAC) FIELD" class="BINARY"/>
 </isopackager>
