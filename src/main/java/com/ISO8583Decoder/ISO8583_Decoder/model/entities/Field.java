@@ -1,4 +1,7 @@
-package com.ISO8583Decoder.ISO8583_Decoder.model;
+package com.ISO8583Decoder.ISO8583_Decoder.model.entities;
+
+import com.ISO8583Decoder.ISO8583_Decoder.model.FieldItem;
+import com.ISO8583Decoder.ISO8583_Decoder.model.entities.Acquirer;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,7 +17,7 @@ public class Field {
     private Integer length;
     private String name;
 
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Transient
     private List<FieldItem> fieldItemList;
 
     @ManyToOne()

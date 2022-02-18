@@ -2,16 +2,13 @@ package com.ISO8583Decoder.ISO8583_Decoder.model;
 
 import com.ISO8583Decoder.ISO8583_Decoder.dto.DecodeFieldDto;
 import com.ISO8583Decoder.ISO8583_Decoder.dto.DecodeMsgDto;
+import com.ISO8583Decoder.ISO8583_Decoder.model.entities.Field;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "decodeMsgs")
 public class DecodeMsg {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String originalMsg;
     private String length;
@@ -19,10 +16,8 @@ public class DecodeMsg {
     private String bitmap;
     private String data;
 
-    @OneToOne(mappedBy = "decodeMsg", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private MtiItem mti;
 
-    @OneToMany(mappedBy = "decodeMsg", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DecodeField> decodeFields;
 
     public DecodeMsg(){}
@@ -155,7 +150,7 @@ public class DecodeMsg {
         return mti;
     }
 
-    public DecodeField decodeFields(Field f_data,String data) throws Exception {
+    public DecodeField decodeFields(Field f_data, String data) throws Exception {
         boolean isAscii = this.isAscii(f_data.getField_number());
 
         String decoded_data = "";

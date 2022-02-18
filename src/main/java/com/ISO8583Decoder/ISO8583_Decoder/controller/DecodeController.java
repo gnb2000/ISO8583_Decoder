@@ -2,6 +2,7 @@ package com.ISO8583Decoder.ISO8583_Decoder.controller;
 
 import com.ISO8583Decoder.ISO8583_Decoder.dto.DecodeMsgDto;
 import com.ISO8583Decoder.ISO8583_Decoder.model.*;
+import com.ISO8583Decoder.ISO8583_Decoder.model.entities.Field;
 import com.ISO8583Decoder.ISO8583_Decoder.services.FieldService;
 import com.ISO8583Decoder.ISO8583_Decoder.services.MtiService;
 import org.springframework.beans.factory.annotation.Autowired;

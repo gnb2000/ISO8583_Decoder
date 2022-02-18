@@ -1,4 +1,6 @@
-package com.ISO8583Decoder.ISO8583_Decoder.model;
+package com.ISO8583Decoder.ISO8583_Decoder.model.entities;
+
+import com.ISO8583Decoder.ISO8583_Decoder.model.MtiItem;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,7 +14,7 @@ public class Mti {
     private String mti;
     private String meaning;
 
-    @OneToMany(mappedBy = "mti", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Transient
     private List<MtiItem> mtiItemList;
 
     public Mti(){}

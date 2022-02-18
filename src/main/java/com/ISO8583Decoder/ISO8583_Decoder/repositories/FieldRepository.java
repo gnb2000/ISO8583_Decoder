@@ -1,6 +1,6 @@
 package com.ISO8583Decoder.ISO8583_Decoder.repositories;
 
-import com.ISO8583Decoder.ISO8583_Decoder.model.Field;
+import com.ISO8583Decoder.ISO8583_Decoder.model.entities.Field;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

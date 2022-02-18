@@ -1,13 +1,11 @@
 package com.ISO8583Decoder.ISO8583_Decoder.controller;
 
-import com.ISO8583Decoder.ISO8583_Decoder.model.Acquirer;
-import com.ISO8583Decoder.ISO8583_Decoder.model.Field;
+import com.ISO8583Decoder.ISO8583_Decoder.model.entities.Acquirer;
+import com.ISO8583Decoder.ISO8583_Decoder.model.entities.Field;
 import com.ISO8583Decoder.ISO8583_Decoder.services.AcquirerService;
 import com.ISO8583Decoder.ISO8583_Decoder.services.FieldService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,9 +19,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 @RestController
 public class FieldController {

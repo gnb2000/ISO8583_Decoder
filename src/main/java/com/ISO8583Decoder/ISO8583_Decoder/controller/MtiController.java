@@ -1,6 +1,6 @@
 package com.ISO8583Decoder.ISO8583_Decoder.controller;
 
-import com.ISO8583Decoder.ISO8583_Decoder.model.Mti;
+import com.ISO8583Decoder.ISO8583_Decoder.model.entities.Mti;
 import com.ISO8583Decoder.ISO8583_Decoder.services.MtiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

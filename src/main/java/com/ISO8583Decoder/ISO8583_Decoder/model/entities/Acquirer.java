@@ -1,4 +1,4 @@
-package com.ISO8583Decoder.ISO8583_Decoder.model;
+package com.ISO8583Decoder.ISO8583_Decoder.model.entities;
 
 import javax.persistence.*;
 import java.util.List;
